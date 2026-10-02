@@ -1,7 +1,7 @@
 let form = document.querySelector("form");
 let main = document.querySelector("main");
 
-let arr = [];
+let arr = JSON.parse(localStorage.getItem("arr")) || [];
 let haveId = null;
 
 function render() {
@@ -40,7 +40,7 @@ form.addEventListener("submit", (e) => {
   if (haveId !== null) {
     let index = arr.findIndex((i) => i.cardId === haveId);
 
-    if (index !== null) {
+    if (index !== -1) {
       arr[index].name = name;
       arr[index].email = email;
       arr[index].url = url;
@@ -57,13 +57,15 @@ form.addEventListener("submit", (e) => {
 
     arr.push(card);
   }
-
+  localStorage.setItem("arr", JSON.stringify(arr));
   render();
 });
 
 function deleteCard(id) {
   let index = arr.findIndex((i) => i.cardId === id);
     arr.splice(index, 1);
+       localStorage.setItem("arr", JSON.stringify(arr));
+
     render();
 }
 
@@ -77,4 +79,9 @@ function updateCard(id) {
     form[1].value = item.email;
     form[2].value = item.url;
   }
-}
+};
+
+
+
+
+render();
